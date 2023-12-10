@@ -1,0 +1,59 @@
+'''
+Experiment No. 1 : In a second year computer engineering class, group A students play cricket, group B students play
+                   badminton and group C students play football.
+                   Write a python program using functions to compute following:
+                   a) List of students who play both cricket and badminton.
+                   b) List of students who play either cricket or badminton but not both.
+                   c) Number of students who play neither cricket nor badminton.
+                   d) Number of students who play cricket and football but not badminton.
+(NOTE : While realising the group, duplicate entries should be avoided. Do not use SET built-in functions)
+'''
+
+# a) List of students who play both cricket and badminton.
+def ab(a,b):
+    res=[]
+    for ch in a:
+        if ch in b:
+            res.append(ch)
+    return res
+
+# b) List of students who play either cricket or badminton but not both.
+def ab_notboth(a,b):
+    ea=[]
+    for ch in a:
+        if ch not in b:
+            ea.append(ch)
+    for ch in b:
+        if ch not in a:
+            ea.append(ch)
+    return ea
+
+# c) Number of students who play neither cricket nor badminton.
+def n_ab(a,b,c):
+    res = []
+    for ch in c:
+         if ch not in a and ch not in b:
+             res.append(ch)
+    return res
+
+# d) Number of students who play cricket and football but not badminton.
+def ac_nb(a,b,c):
+    res=[]
+    for ch in ab(a,c):
+        if ch not in b:
+            res.append(ch)
+    return res
+
+            
+a=input("enter separated by space for cricket: ").split(" ")
+b=input("enter separated by space for badminton: ").split(" ")
+c=input("enter separated by space for football: ").split(" ")
+
+print(f"cricket : {a}")
+print(f"badminton : {b}")
+print(f"footbal : {c}")
+
+print(f"Players playing cricket and badminton both : {ab(a,b)}")
+print(f"Players playing either cricket or badminton but not both : {ab_notboth(a,b)}")
+print(f"Players playing neither cricket not badminton : {n_ab(a,b,c)}")
+print(f"Players playing cricket and football but not badminton : {ac_nb(a,b,c)}")
