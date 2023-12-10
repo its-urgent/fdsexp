@@ -1,0 +1,53 @@
+'''Write a python program to store roll numbers of student array who attended training
+program in sorted order. Write function for searching whether particular student
+attended training program or not, using Binary search and Fibonacci search'''
+
+#binary search
+def binary_search(rolls,n,t):
+    low=0
+    high=n-1
+    for i in range(0,n):
+        mid=(low+high)//2
+        if rolls[mid]==t:
+            return mid
+        elif rolls[mid]>t:
+            high=mid-1
+        elif rolls[mid]<t:
+            low=mid+1
+    
+def fibonacci_search(arr, x):
+    fib_m2, fib_m1 = 0, 1
+
+    while fib_m1 < len(arr):
+        fib_m2, fib_m1 = fib_m1, fib_m2 + fib_m1
+
+    offset = -1
+
+    while fib_m1 > 1:
+        i = min(offset + fib_m2, len(arr) - 1)
+
+        if arr[i] < x:
+            fib_m2, fib_m1 = fib_m1, fib_m2
+            offset = i
+
+        elif arr[i] > x:
+            fib_m2, fib_m1 = fib_m2 - fib_m1, fib_m2
+
+        else:
+            return i
+
+    if fib_m1 and arr[offset + 1] == x:
+        return offset + 1
+
+    return -1
+
+n=int(input("Enter total no. of students attending training camp : "))
+rolls=[]
+for i in range(0,n):
+    ele = int(input(f"enter roll no. of student at position {i+1} : "))
+    rolls.append(ele)
+
+print(rolls)
+t=int(input("enter no. to search : "))
+print(f"index of target is : {binary_search(rolls,n,t)}")
+print(f"index of target is : {fibonacci_search(rolls,t)}")
