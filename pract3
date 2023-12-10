@@ -1,0 +1,70 @@
+'''Write a Python program to compute following operations on String:
+a) To display word with the longest length
+b) To determines the frequency of occurrence of particular character in the string
+c) To check whether given string is palindrome or not
+d) To display index of first appearance of the substring
+e) To count the occurrences of each word in a given string'''
+
+#a) To display word with the longest length
+def lw(a):
+    words = a.split()
+    
+    max_length = 0
+    longest = ""
+    
+    for word in words:
+        current_length = 0
+        for char in word:
+            current_length += 1
+        if current_length > max_length:
+            max_length = current_length
+            longest = word
+    
+    return longest
+
+#b) To determines the frequency of occurrence of particular character in the string
+def freq(a,c):
+    count=0
+    for ch in a:
+        if ch==c:
+            count+=1
+    return count
+
+#c) To check whether given string is palindrome or not
+def isPalindrome(a):
+    check=True
+    n=len(a)
+    for i in range (0,n//2):
+        if a[i]!=a[n-i-1]:
+            check=False
+    if check==True:
+        print("string is palindrome.")
+    else:
+        print("string is not palindrome")
+
+#d) To display index of first appearance of the substring
+def first_appear(a,f):
+    i=a.find(f)
+    return i
+
+#e) To count the occurrences of each word in a given string
+def occ_word(a,w):
+    words=a.split()
+    cnt=0
+    for ch in words:
+        if ch==w:
+            cnt+=1
+    return cnt
+
+
+
+a=input("Enter String : ")
+print(f"longedt: {lw(a)}")
+c=input("enter charactor for finding its frequency : ")
+print("frequency of ", c , f"is : {freq(a,c)}")
+print("checking palindrome or not : ")
+isPalindrome(a)
+f=input("enter substring for check 1st appearance : ")
+print(f"first occuring index for f : {first_appear(a,f)}")
+w=input("enter the word to find occurace: ")
+print(f"occurance of word in string : {occ_word(a,w)}")
