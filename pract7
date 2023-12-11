@@ -1,0 +1,125 @@
+/*Second year Computer Engineering class, set A of students like Vanilla Ice-cream and set
+B of students like butterscotch ice-cream. Write C++ program to store two sets using
+linked list. compute and displaya) Set of students who like both vanilla and butterscotch
+b) Set of students who like either vanilla or butterscotch or not both
+c) Number of students who like neither vanilla nor butterscotch*/
+
+#include <iostream>
+using namespace std;
+// Node structure for linked list
+struct Node {
+    int data;
+    Node* next;
+    
+    Node(int val) : data(val), next(nullptr) {}
+};
+
+// Function to insert an element into the linked list
+void insert(Node*& head, int val) {
+    Node* newNode = new Node(val);
+    newNode->next = head;
+    head = newNode;
+}
+
+// Function to display elements of the linked list
+void display(Node* head) {
+    while (head) {
+        cout << head->data << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+// Function to compute set operations
+void setOperations(Node* setA, Node* setB) {
+    // a) Set of students who like both vanilla and butterscotch
+    cout << "a) Set of students who like both vanilla and butterscotch: ";
+    while (setA) {
+        if (setB != nullptr && setA->data == setB->data) {
+            cout << setA->data << " ";
+            setB = setB->next;
+        }
+        setA = setA->next;
+    }
+    cout << endl;
+
+    // b) Set of students who like either vanilla or butterscotch or not both
+    cout << "b) Set of students who like either vanilla or butterscotch or not both: ";
+    setA = setA; // Reset setA pointer to the beginning
+    setB = setB; // Reset setB pointer to the beginning
+    while (setA || setB) {
+        if (setA != nullptr && (setB == nullptr || setA->data < setB->data)) {
+            cout << setA->data << " ";
+            setA = setA->next;
+        } else if (setB != nullptr && (setA == nullptr || setA->data > setB->data)) {
+            cout << setB->data << " ";
+            setB = setB->next;
+        } else {
+            setA = setA->next;
+            setB = setB->next;
+        }
+    }
+    cout << endl;
+
+    // c) Number of students who like neither vanilla nor butterscotch
+    int neitherCount = 0;
+    setA = setA; // Reset setA pointer to the beginning
+    setB = setB; // Reset setB pointer to the beginning
+    while (setA && setB) {
+        if (setA->data < setB->data) {
+            neitherCount++;
+            setA = setA->next;
+        } else if (setA->data > setB->data) {
+            neitherCount++;
+            setB = setB->next;
+        } else {
+            setA = setA->next;
+            setB = setB->next;
+        }
+    }
+    neitherCount += (setA ? 1 : 0) + (setB ? 1 : 0);
+    cout << "c) Number of students who like neither vanilla nor butterscotch: " << neitherCount << endl;
+}
+
+int main() {
+    // Creating sets using linked lists
+    Node* setA = nullptr;
+    Node* setB = nullptr;
+
+    // Taking input from the user for set A
+    int nA;
+    cout << "Enter the number of students in set A: ";
+    cin >> nA;
+    cout << "Enter the roll numbers of students in set A:\n";
+    for (int i = 0; i < nA; ++i) {
+        int rollNumber;
+        cin >> rollNumber;
+        insert(setA, rollNumber);
+    }
+
+    // Taking input from the user for set B
+    int nB;
+    cout << "Enter the number of students in set B: ";
+    cin >> nB;
+    cout << "Enter the roll numbers of students in set B:\n";
+    for (int i = 0; i < nB; ++i) {
+        int rollNumber;
+        cin >> rollNumber;
+        insert(setB, rollNumber);
+    }
+
+    // Displaying sets
+    cout << "Set A: ";
+    display(setA);
+    cout << "Set B: ";
+    display(setB);
+
+    // Computing and displaying set operations
+    setOperations(setA, setB);
+
+    // Freeing memory (you may want to implement a proper cleanup function)
+    delete setA;
+    delete setB;
+
+    return 0;
+}
