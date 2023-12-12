@@ -1,17 +1,12 @@
-/*Second year Computer Engineering class, set A of students like Vanilla Ice-cream and set
-B of students like butterscotch ice-cream. Write C++ program to store two sets using
-linked list. compute and displaya) Set of students who like both vanilla and butterscotch
-b) Set of students who like either vanilla or butterscotch or not both
-c) Number of students who like neither vanilla nor butterscotch*/
-
 #include <iostream>
 using namespace std;
+
 // Node structure for linked list
 struct Node {
     int data;
     Node* next;
-    
-    Node(int val) : data(val), next(nullptr) {}
+
+    Node(int val) : data(val), next(NULL) {}
 };
 
 // Function to insert an element into the linked list
@@ -23,9 +18,10 @@ void insert(Node*& head, int val) {
 
 // Function to display elements of the linked list
 void display(Node* head) {
-    while (head) {
-        cout << head->data << " ";
-        head = head->next;
+    Node* current = head;
+    while (current) {
+        cout << current->data << " ";
+        current = current->next;
     }
     cout << endl;
 }
@@ -35,7 +31,7 @@ void setOperations(Node* setA, Node* setB) {
     // a) Set of students who like both vanilla and butterscotch
     cout << "a) Set of students who like both vanilla and butterscotch: ";
     while (setA) {
-        if (setB != nullptr && setA->data == setB->data) {
+        if (setB != NULL && setA->data == setB->data) {
             cout << setA->data << " ";
             setB = setB->next;
         }
@@ -48,10 +44,10 @@ void setOperations(Node* setA, Node* setB) {
     setA = setA; // Reset setA pointer to the beginning
     setB = setB; // Reset setB pointer to the beginning
     while (setA || setB) {
-        if (setA != nullptr && (setB == nullptr || setA->data < setB->data)) {
+        if (setA != NULL && (setB == NULL || setA->data != setB->data)) {
             cout << setA->data << " ";
             setA = setA->next;
-        } else if (setB != nullptr && (setA == nullptr || setA->data > setB->data)) {
+        } else if (setB != NULL && (setA == NULL || setA->data != setB->data)) {
             cout << setB->data << " ";
             setB = setB->next;
         } else {
@@ -83,8 +79,8 @@ void setOperations(Node* setA, Node* setB) {
 
 int main() {
     // Creating sets using linked lists
-    Node* setA = nullptr;
-    Node* setB = nullptr;
+    Node* setA = NULL;
+    Node* setB = NULL;
 
     // Taking input from the user for set A
     int nA;
@@ -117,9 +113,20 @@ int main() {
     // Computing and displaying set operations
     setOperations(setA, setB);
 
-    // Freeing memory (you may want to implement a proper cleanup function)
-    delete setA;
-    delete setB;
+    // Freeing memory
+    Node* tempA = setA;
+    while (tempA != NULL) {
+        Node* nextNode = tempA->next;
+        delete tempA;
+        tempA = nextNode;
+    }
+
+    Node* tempB = setB;
+    while (tempB != NULL) {
+        Node* nextNode = tempB->next;
+        delete tempB;
+        tempB = nextNode;
+    }
 
     return 0;
 }
