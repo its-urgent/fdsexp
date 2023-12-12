@@ -1,0 +1,164 @@
+/*A double-ended queue (deque) is a linear list in which additions and deletions may be
+made at either end. Obtain a data representation mapping a deque into a onedimensional array. Write C++ program to simulate deque with functions to add and
+delete elements from either end of the deque.*/
+
+#include <iostream>
+
+using namespace std;
+
+const int MAX_SIZE = 100;
+
+class Deque {
+private:
+    int arr[MAX_SIZE];
+    int front, rear;
+
+public:
+    // Constructor
+    Deque() : front(-1), rear(-1) {}
+
+    // Function to check if the deque is empty
+    bool isEmpty() {
+        return front == -1 && rear == -1;
+    }
+
+    // Function to check if the deque is full
+    bool isFull() {
+        return (rear + 1) % MAX_SIZE == front;
+    }
+
+    // Function to add an element at the front of the deque
+    void addToFront(int element) {
+        if (isFull()) {
+            cout << "Deque is full. Cannot add element to the front.\n";
+            return;
+        }
+
+        if (isEmpty()) {
+            front = rear = 0;
+        } else {
+            front = (front - 1 + MAX_SIZE) % MAX_SIZE;
+        }
+
+        arr[front] = element;
+        cout << "Element " << element << " added to the front of the deque.\n";
+    }
+
+    // Function to add an element at the rear of the deque
+    void addToRear(int element) {
+        if (isFull()) {
+            cout << "Deque is full. Cannot add element to the rear.\n";
+            return;
+        }
+
+        if (isEmpty()) {
+            front = rear = 0;
+        } else {
+            rear = (rear + 1) % MAX_SIZE;
+        }
+
+        arr[rear] = element;
+        cout << "Element " << element << " added to the rear of the deque.\n";
+    }
+
+    // Function to delete an element from the front of the deque
+    void deleteFromFront() {
+        if (isEmpty()) {
+            cout << "Deque is empty. Cannot delete element from the front.\n";
+            return;
+        }
+
+        cout << "Element " << arr[front] << " deleted from the front of the deque.\n";
+
+        if (front == rear) {
+            front = rear = -1; // Reset to an empty deque
+        } else {
+            front = (front + 1) % MAX_SIZE;
+        }
+    }
+
+    // Function to delete an element from the rear of the deque
+    void deleteFromRear() {
+        if (isEmpty()) {
+            cout << "Deque is empty. Cannot delete element from the rear.\n";
+            return;
+        }
+
+        cout << "Element " << arr[rear] << " deleted from the rear of the deque.\n";
+
+        if (front == rear) {
+            front = rear = -1; // Reset to an empty deque
+        } else {
+            rear = (rear - 1 + MAX_SIZE) % MAX_SIZE;
+        }
+    }
+
+    // Function to display the elements of the deque
+    void displayDeque() {
+        if (isEmpty()) {
+            cout << "Deque is empty.\n";
+        } else {
+            cout << "Elements of the deque: ";
+            int i = front;
+            do {
+                cout << arr[i] << " ";
+                i = (i + 1) % MAX_SIZE;
+            } while (i != (rear + 1) % MAX_SIZE);
+            cout << endl;
+        }
+    }
+};
+
+int main() {
+    Deque deque;
+
+    int choice, element;
+
+    do {
+        cout << "\nMenu:\n";
+        cout << "1. Add to Front\n";
+        cout << "2. Add to Rear\n";
+        cout << "3. Delete from Front\n";
+        cout << "4. Delete from Rear\n";
+        cout << "5. Display Deque\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter the element to add to the front: ";
+                cin >> element;
+                deque.addToFront(element);
+                break;
+
+            case 2:
+                cout << "Enter the element to add to the rear: ";
+                cin >> element;
+                deque.addToRear(element);
+                break;
+
+            case 3:
+                deque.deleteFromFront();
+                break;
+
+            case 4:
+                deque.deleteFromRear();
+                break;
+
+            case 5:
+                deque.displayDeque();
+                break;
+
+            case 6:
+                cout << "Exiting program.\n";
+                break;
+
+            default:
+                cout << "Invalid choice. Please enter a valid option.\n";
+        }
+
+    } while (choice != 6);
+
+    return 0;
+}
