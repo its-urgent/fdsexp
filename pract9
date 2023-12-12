@@ -8,45 +8,45 @@ parenthesized or not*/
 
 using namespace std;
 
-// Function to check if the given expression is well-parenthesized
 bool isWellParenthesized(const string& expression) {
-    stack<char> parenthesesStack;
+    stack<char> stack;
 
-    for (char ch : expression) {
-        if (ch == '(' || ch == '{' || ch == '[') {
-            // Push opening parentheses onto the stack
-            parenthesesStack.push(ch);
-        } else if (ch == ')' || ch == '}' || ch == ']') {
-            // Check if the stack is empty (no corresponding opening parenthesis)
-            if (parenthesesStack.empty()) {
-                return false;
+    for (size_t i = 0; i < expression.size(); ++i) {
+        char currentChar = expression[i];
+
+        if (currentChar == '(' || currentChar == '[' || currentChar == '{') {
+            stack.push(currentChar);
+        } else if (currentChar == ')' || currentChar == ']' || currentChar == '}') {
+            if (stack.empty()) {
+                return false; // Closing delimiter without a corresponding opening delimiter
             }
 
-            // Check if the current closing parenthesis matches the top of the stack
-            char top = parenthesesStack.top();
-            parenthesesStack.pop();
-            if ((ch == ')' && top != '(') || (ch == '}' && top != '{') || (ch == ']' && top != '[')) {
-                return false;
+            char top = stack.top();
+            stack.pop();
+
+            if ((currentChar == ')' && top != '(') ||
+                (currentChar == ']' && top != '[') ||
+                (currentChar == '}' && top != '{')) {
+                return false; // Mismatched opening and closing delimiters
             }
         }
     }
 
-    // Check if there are any remaining opening parentheses on the stack
-    return parenthesesStack.empty();
+    return stack.empty(); // Expression is well-parenthesized if the stack is empty at the end
 }
 
 int main() {
     string expression;
 
-    // Input the expression
+    // Input expression from the user
     cout << "Enter an expression: ";
     getline(cin, expression);
 
     // Check if the expression is well-parenthesized
     if (isWellParenthesized(expression)) {
-        cout << "The expression is well-parenthesized.\n";
+        cout << "The expression is well-parenthesized." << endl;
     } else {
-        cout << "The expression is not well-parenthesized.\n";
+        cout << "The expression is not well-parenthesized." << endl;
     }
 
     return 0;
